@@ -102,7 +102,7 @@ class _FlashcardScreenState extends State<FlashcardScreen> {
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                           color: Color.fromARGB(
-                                              220, 244, 245, 252)),
+                                              255, 244, 245, 252)),
                                     ),
                                     const Text(
                                       'Add using the + icon.',
@@ -287,7 +287,7 @@ class _FlashcardScreenState extends State<FlashcardScreen> {
                             children: [
                               CircleAvatar(
                                 backgroundColor:
-                                    const Color.fromARGB(220, 47, 56, 85),
+                                    const Color.fromARGB(255, 47, 56, 85),
                                 radius: 30,
                                 child: IconButton(
                                     onPressed: () {
@@ -300,7 +300,7 @@ class _FlashcardScreenState extends State<FlashcardScreen> {
                               ),
                               CircleAvatar(
                                 backgroundColor:
-                                    const Color.fromARGB(220, 47, 56, 85),
+                                    const Color.fromARGB(255, 47, 56, 85),
                                 radius: 30,
                                 child: IconButton(
                                     onPressed: () {
@@ -325,7 +325,7 @@ class _FlashcardScreenState extends State<FlashcardScreen> {
                                                           style: TextStyle(
                                                               color: Color
                                                                   .fromARGB(
-                                                                      220,
+                                                                      255,
                                                                       244,
                                                                       245,
                                                                       252),
@@ -444,7 +444,7 @@ class _FlashcardScreenState extends State<FlashcardScreen> {
                               ),
                               CircleAvatar(
                                 backgroundColor:
-                                    const Color.fromARGB(220, 47, 56, 85),
+                                    const Color.fromARGB(255, 47, 56, 85),
                                 radius: 30,
                                 child: IconButton(
                                     onPressed: () {

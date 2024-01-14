@@ -42,52 +42,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
               appBar: AppBar(
                 title: const Text('Subjects'),
               ),
-              drawer: Drawer(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: <Widget>[
-                    const DrawerHeader(
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(220, 26, 19, 38),
-                      ),
-                      child: Text(
-                        'RecallX',
-                        style: TextStyle(
-                          color: Color.fromARGB(220, 244, 245, 252),
-                          fontSize: 24,
-                        ),
-                      ),
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.message),
-                      title: const Text('Messages'),
-                      onTap: () {
-                        setState(() {
-                          // selectedPage = 'Messages';
-                        });
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.account_circle),
-                      title: const Text('Profile'),
-                      onTap: () {
-                        setState(() {
-                          // selectedPage = 'Profile';
-                        });
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.settings),
-                      title: const Text('Settings'),
-                      onTap: () {
-                        setState(() {
-                          // selectedPage = 'Settings';
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
               body: FutureBuilder(
                   future: _subjectFuture,
                   builder: (context, snapshot) {
@@ -106,7 +60,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(220, 244, 245, 252)),
+                                  color: Color.fromARGB(255, 244, 245, 252)),
                             ),
                             const Text(
                               'Add using the + icon.',
@@ -122,7 +76,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           backgroundColor:
                               const Color.fromARGB(255, 47, 56, 85),
                           child: const Icon(Icons.add,
-                              color: Color.fromARGB(220, 225, 223, 216)),
+                              color: Color.fromARGB(255, 225, 223, 216)),
                         ),
                         floatingActionButtonLocation:
                             FloatingActionButtonLocation.endFloat,
@@ -150,7 +104,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
 
                           child: const Icon(
                             Icons.add,
-                            color: Color.fromARGB(220, 225, 223, 216),
+                            color: Color.fromARGB(255, 225, 223, 216),
                           ),
                         ),
                         floatingActionButtonLocation:
@@ -176,6 +130,11 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   decoration:
                       const InputDecoration(hintText: "Enter Subject Name")),
               actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel')),
                 TextButton(
                     onPressed: () {
                       submitSubject(context, subjectController.text);
@@ -247,7 +206,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
           padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(
             // color: Colors.orange.shade400,
-            color: const Color.fromARGB(220, 142, 187, 255),
+            color: const Color.fromARGB(255, 142, 187, 255),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Stack(
@@ -259,7 +218,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(220, 244, 245, 252)),
+                      color: Color.fromARGB(255, 244, 245, 252)),
                 ),
               ),
               Positioned(
@@ -267,7 +226,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 right: 0,
                 child: PopupMenuButton(
                     icon: const Icon(Icons.more_vert,
-                        color: Color.fromARGB(220, 244, 245, 252)),
+                        color: Color.fromARGB(255, 244, 245, 252)),
                     itemBuilder: (BuildContext context) => [
                           PopupMenuItem(
                               child: const Row(

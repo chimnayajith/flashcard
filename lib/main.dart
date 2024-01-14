@@ -12,10 +12,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          scaffoldBackgroundColor: Color.fromARGB(220, 36, 41, 62),
+          scaffoldBackgroundColor: const Color.fromARGB(255, 36, 41, 62),
           appBarTheme: const AppBarTheme(
-              backgroundColor: Color.fromARGB(220, 36, 41, 62),
-              foregroundColor: Color.fromARGB(220, 244, 245, 252))),
+              backgroundColor: Color.fromARGB(255, 36, 41, 62),
+              foregroundColor: Color.fromARGB(255, 244, 245, 252))),
       home: const SubjectScreen(),
       // home: ChapterScreen(),
     );

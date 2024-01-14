@@ -68,7 +68,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(220, 244, 245, 252)),
+                                    color: Color.fromARGB(255, 244, 245, 252)),
                               ),
                               const Text(
                                 'Add using the + icon.',
@@ -85,7 +85,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                   },
                   backgroundColor: const Color.fromARGB(255, 47, 56, 85),
                   child: const Icon(Icons.add,
-                      color: Color.fromARGB(220, 225, 223, 216)),
+                      color: Color.fromARGB(255, 225, 223, 216)),
                 ),
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.endFloat,
@@ -99,23 +99,22 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              backgroundColor: const Color.fromARGB(220, 26, 19, 38),
-              // titleTextStyle: const TextStyle(color: Color.fromARGB(220, 244, 245, 252)),
-              title: const Text("Add Chapter",
-                  style: TextStyle(color: Color.fromARGB(220, 244, 245, 252))),
+              // backgroundColor: const Color.fromARGB(255, 26, 19, 38),
+              title: const Text("Add Chapter"),
               content: TextField(
                 controller: chapterController,
                 autofocus: true,
-                decoration: const InputDecoration(
-                    hintText: "Enter Chapter Name",
-                    hintStyle:
-                        TextStyle(color: Color.fromARGB(220, 244, 245, 252))),
+                decoration:
+                    const InputDecoration(hintText: "Enter Chapter Name"),
                 textCapitalization: TextCapitalization.words,
-                style:
-                    const TextStyle(color: Color.fromARGB(220, 244, 245, 252)),
               ),
               contentPadding: const EdgeInsets.all(20),
               actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel')),
                 TextButton(
                     onPressed: () {
                       submitChapter(context, id, chapterController.text);
@@ -148,18 +147,18 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
         child: ListTile(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          tileColor: const Color.fromARGB(220, 142, 187, 255),
+          tileColor: const Color.fromARGB(255, 142, 187, 255),
           title: Text(
             text,
             style: const TextStyle(
-                color: Color.fromARGB(220, 244, 245, 252),
+                color: Color.fromARGB(255, 244, 245, 252),
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
                 letterSpacing: 1.2),
           ),
           trailing: PopupMenuButton(
               icon: const Icon(Icons.more_vert,
-                  color: Color.fromARGB(220, 244, 245, 252)),
+                  color: Color.fromARGB(255, 244, 245, 252)),
               itemBuilder: (BuildContext context) => [
                     PopupMenuItem(
                         child: const Row(
