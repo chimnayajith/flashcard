@@ -3,45 +3,44 @@ import 'package:flashcard/repositories/flashcard_repository.dart';
 import 'package:flashcard/screens/flashcard_screen.dart';
 import 'package:flutter/material.dart';
 
-class AddFlashCardScreen extends StatefulWidget {
-  final String subjectId;
-  final String chapterName;
-  const AddFlashCardScreen(
-      {Key? key, required this.subjectId, required this.chapterName})
+class EditFlashcardScreen extends StatefulWidget {
+  final Flashcard flashcard;
+  const EditFlashcardScreen({Key? key, required this.flashcard})
       : super(key: key);
 
   @override
-  State<AddFlashCardScreen> createState() => _AddFlashCardScreenState();
+  State<EditFlashcardScreen> createState() => _EditFlashcardScreenState();
 }
 
 enum FlashcardType { normal, complex }
 
-class _AddFlashCardScreenState extends State<AddFlashCardScreen> {
-  FlashcardType? type = FlashcardType.normal;
+class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
+  FlashcardType? type;
 
   final FlashcardRepository flashcardRepository = FlashcardRepository();
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController questionController = TextEditingController();
-    final TextEditingController answerController = TextEditingController();
+  void initState() {
+    super.initState();
+    type = widget.flashcard.type == "normal"
+        ? FlashcardType.normal
+        : FlashcardType.complex;
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    final TextEditingController questionController =
+        TextEditingController(text: widget.flashcard.question);
+    final TextEditingController answerController =
+        TextEditingController(text: widget.flashcard.answer);
     return MaterialApp(
       theme: ThemeData(
-          scaffoldBackgroundColor: Color.fromARGB(220, 36, 41, 62),
+          scaffoldBackgroundColor: Colors.black,
           appBarTheme: const AppBarTheme(
-              backgroundColor: Color.fromARGB(220, 36, 41, 62),
-              foregroundColor: Color.fromARGB(220, 244, 245, 252))),
+              backgroundColor: Colors.black, foregroundColor: Colors.white)),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Add New Flashcard"),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(Icons.close))
-          ],
+          title: const Text("Edit Flashcard"),
         ),
         body: Padding(
             padding: const EdgeInsets.all(16),
@@ -54,8 +53,7 @@ class _AddFlashCardScreenState extends State<AddFlashCardScreen> {
                       const Text(
                         'Normal',
                         style: TextStyle(
-                            color: Color.fromARGB(220, 244, 245, 252),
-                            fontSize: 18),
+                            color: Color.fromARGB(220, 244, 245, 252)),
                       ),
                       Radio<FlashcardType>(
                         value: FlashcardType.normal,
@@ -68,8 +66,7 @@ class _AddFlashCardScreenState extends State<AddFlashCardScreen> {
                       ),
                       const Text('Complex',
                           style: TextStyle(
-                              color: Color.fromARGB(220, 244, 245, 252),
-                              fontSize: 18)),
+                              color: Color.fromARGB(220, 244, 245, 252))),
                       Radio<FlashcardType>(
                         value: FlashcardType.complex,
                         groupValue: type,
@@ -84,6 +81,7 @@ class _AddFlashCardScreenState extends State<AddFlashCardScreen> {
                   const SizedBox(height: 40),
                   TextField(
                     controller: questionController,
+                    autofocus: true,
                     decoration: const InputDecoration(
                         labelText: "Question",
                         border: OutlineInputBorder(),
@@ -109,35 +107,38 @@ class _AddFlashCardScreenState extends State<AddFlashCardScreen> {
                   ),
                   const SizedBox(height: 20),
                   Padding(
-                      padding: const EdgeInsets.only(top: 300),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            String question = questionController.text;
-                            String flashcardType =
-                                type.toString().split('.').last;
-                            String answer = answerController.text;
-                            String complex =
-                                convertToLatex(answerController.text);
+                    padding: const EdgeInsets.only(top: 300),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          String question = questionController.text;
+                          String flashcardType =
+                              type.toString().split('.').last;
+                          String answer = answerController.text;
+                          String complex =
+                              convertToLatex(answerController.text);
 
-                            Flashcard flashcard = Flashcard(
-                                subjectId: widget.subjectId,
-                                chapter: widget.chapterName,
-                                question: question,
-                                type: flashcardType,
-                                answer: answer,
-                                complexAnswer: complex);
+                          Flashcard editedFlashcard = Flashcard(
+                              subjectId: widget.flashcard.subjectId,
+                              chapter: widget.flashcard.chapter,
+                              question: question,
+                              type: flashcardType,
+                              answer: answer,
+                              complexAnswer: complex);
 
-                            flashcardRepository.addFlashcard(flashcard);
+                          flashcardRepository.editFlashcard(
+                              widget.flashcard, editedFlashcard);
 
-                            Navigator.pop(context);
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FlashcardScreen(
-                                        subjectId: widget.subjectId,
-                                        chapterName: widget.chapterName)));
-                          },
-                          child: const Text("Submit")))
+                          // Navigator.pop(context);
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FlashcardScreen(
+                                      subjectId: widget.flashcard.subjectId,
+                                      chapterName: widget.flashcard.chapter)),
+                              (route) => false);
+                        },
+                        child: const Text("Submit")),
+                  )
                 ],
               ),
             )),

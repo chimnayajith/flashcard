@@ -11,8 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: new ThemeData(scaffoldBackgroundColor: Colors.black45, appBarTheme: AppBarTheme(backgroundColor: Colors.black45 , foregroundColor: Colors.white)),
-      home: SubjectScreen(),
+      theme: ThemeData(
+          scaffoldBackgroundColor: Color.fromARGB(220, 36, 41, 62),
+          appBarTheme: const AppBarTheme(
+              backgroundColor: Color.fromARGB(220, 36, 41, 62),
+              foregroundColor: Color.fromARGB(220, 244, 245, 252))),
+      home: const SubjectScreen(),
       // home: ChapterScreen(),
     );
   }
