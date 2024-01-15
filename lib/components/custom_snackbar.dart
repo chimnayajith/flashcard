@@ -8,7 +8,9 @@ void showSuccessSnackBar(BuildContext context, String message) {
     ),
     backgroundColor: Colors.green.shade600,
     elevation: 5,
-    margin: const EdgeInsets.only(left: 15, right: 80, bottom: 20),
+    // margin: const EdgeInsets.only(left: 15, right: 80, bottom: 20),
+    margin: const EdgeInsets.fromLTRB(15, 0, 80, 20),
+
     behavior: SnackBarBehavior.floating,
     shape: const StadiumBorder(),
     action: SnackBarAction(
