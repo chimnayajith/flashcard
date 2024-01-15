@@ -1,3 +1,4 @@
+import 'package:flashcard/components/custom_snackbar.dart';
 import 'package:flashcard/models/flashcard_model.dart';
 import 'package:flashcard/repositories/flashcard_repository.dart';
 import 'package:flashcard/screens/flashcard_screen.dart';
@@ -173,6 +174,8 @@ class _AddFlashCardScreenState extends State<AddFlashCardScreen> {
                                               subjectId: widget.subjectId,
                                               chapterName:
                                                   widget.chapterName)));
+                                  showSuccessSnackBar(
+                                      context, "Flashcard added successfully!");
                                 }
                               },
                               child: const Text("Submit")))

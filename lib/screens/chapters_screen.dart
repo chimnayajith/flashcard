@@ -1,3 +1,4 @@
+import 'package:flashcard/components/custom_snackbar.dart';
 import 'package:flashcard/models/subject_model.dart';
 import 'package:flashcard/screens/flashcard_screen.dart';
 import 'package:flashcard/screens/subject_screen.dart';
@@ -132,6 +133,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
     setState(() {
       _subjectFuture = subjectRepository.getSubjectById(widget.subjectId);
     });
+    showSuccessSnackBar(context, "Chapter added successfully!");
   }
 
   Widget _buildCard(String id, String text) {
@@ -217,6 +219,8 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                       setState(() {
                         _subjectFuture = subjectRepository.getSubjectById(id);
                       });
+                      showSuccessSnackBar(
+                          context, "Chapter edited successfully!");
                     },
                     child: const Text('Submit'))
               ],
@@ -253,6 +257,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                         _subjectFuture =
                             subjectRepository.getSubjectById(widget.subjectId);
                       });
+                      showSuccessSnackBar(context, "Chapter deleted!");
                     },
                     child: const Text(
                       'Confirm',

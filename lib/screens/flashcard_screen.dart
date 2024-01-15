@@ -1,3 +1,4 @@
+import 'package:flashcard/components/custom_snackbar.dart';
 import 'package:flashcard/models/flashcard_model.dart';
 import 'package:flashcard/repositories/flashcard_repository.dart';
 import 'package:flashcard/screens/add_flashcard_screen.dart';
@@ -398,6 +399,9 @@ class _FlashcardScreenState extends State<FlashcardScreen> {
                                                                         context)
                                                                     .pop();
                                                                 refreshData();
+                                                                showSuccessSnackBar(
+                                                                    context,
+                                                                    "Flashcard deleted!");
                                                               },
                                                               style:
                                                                   ElevatedButton

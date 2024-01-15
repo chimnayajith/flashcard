@@ -1,3 +1,4 @@
+import 'package:flashcard/components/custom_snackbar.dart';
 import 'package:flashcard/models/subject_model.dart';
 import 'package:flashcard/repositories/subject_repository.dart';
 import 'package:flashcard/screens/chapters_screen.dart';
@@ -138,7 +139,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 TextButton(
                     onPressed: () {
                       submitSubject(context, subjectController.text);
-                      _subjectFuture = subjectRepository.getSubjects();
                     },
                     child: const Text('Submit'))
               ],
@@ -154,7 +154,10 @@ class _SubjectScreenState extends State<SubjectScreen> {
     subjectRepository.addSubject(newSubject);
     Navigator.of(context).pop();
 
-    setState(() {});
+    setState(() {
+      _subjectFuture = subjectRepository.getSubjects();
+    });
+    showSuccessSnackBar(context, "Subject added successfully!");
   }
 
   void openEditDialog(BuildContext context, String id, String oldName) {
@@ -177,7 +180,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 TextButton(
                     onPressed: () {
                       editSubject(context, id, editSubjectController.text);
-                      _subjectFuture = subjectRepository.getSubjects();
                     },
                     child: const Text('Submit'))
               ],
@@ -191,6 +193,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     setState(() {
       _subjectFuture = subjectRepository.getSubjects();
     });
+    showSuccessSnackBar(context, "Subject edited succesfully!");
   }
 
   // Card for each subject
@@ -292,6 +295,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       setState(() {
                         _subjectFuture = subjectRepository.getSubjects();
                       });
+                      showSuccessSnackBar(context, "Subject Deleted!");
                     },
                     child: const Text(
                       'Confirm',

@@ -1,3 +1,4 @@
+import 'package:flashcard/components/custom_snackbar.dart';
 import 'package:flashcard/models/flashcard_model.dart';
 import 'package:flashcard/repositories/flashcard_repository.dart';
 import 'package:flashcard/screens/flashcard_screen.dart';
@@ -187,6 +188,8 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
                                             chapterName:
                                                 widget.flashcard.chapter)),
                                     (route) => false);
+                                showSuccessSnackBar(
+                                    context, "Flashcard edited successfully!");
                               }
                             },
                             child: const Text("Submit")),
