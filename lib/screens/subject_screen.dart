@@ -83,7 +83,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               color: Color.fromARGB(255, 225, 223, 216)),
                         ),
                         floatingActionButtonLocation:
-                            FloatingActionButtonLocation.centerFloat,
+                            FloatingActionButtonLocation.endFloat,
                       );
                     } else {
                       return Scaffold(
