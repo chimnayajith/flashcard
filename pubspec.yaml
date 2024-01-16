@@ -84,6 +84,10 @@ flutter:
   assets:
     - ./lib/assets/empty.png
     - ./lib/assets/logo.png
+    - ./lib/assets/study.png
+    - ./lib/assets/organise.png
+    - ./lib/assets/interactive.png
+    - ./lib/assets/interactive.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

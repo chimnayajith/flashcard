@@ -33,7 +33,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
       onWillPop: () async {
         SystemNavigator.pop();
         return true;
-        // return true;
       },
       child: Navigator(
         key: navigatorKey,
@@ -52,36 +51,39 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       return Text('Error ${snapshot.error}');
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return Scaffold(
-                        body: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        body: Stack(
                           children: [
-                            Image.asset('./lib/assets/empty.png'),
-                            const Text(
-                              'No subjects yet!',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 244, 245, 252)),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image.asset('./lib/assets/empty.png'),
+                                const Text(
+                                  'No subjects yet!',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          Color.fromARGB(255, 244, 245, 252)),
+                                ),
+                                const Text(
+                                  'Add using the + icon.',
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.grey),
+                                )
+                              ],
                             ),
-                            const Text(
-                              'Add using the + icon.',
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.grey),
-                            )
                           ],
                         ),
                         floatingActionButton: FloatingActionButton(
                           onPressed: () {
                             openDialog(context);
                           },
-                          backgroundColor:
-                              // const Color.fromARGB(255, 47, 56, 85),
-                              const Color.fromARGB(255, 9, 21, 27),
+                          backgroundColor: const Color.fromARGB(255, 9, 21, 27),
                           child: const Icon(Icons.add,
                               color: Color.fromARGB(255, 225, 223, 216)),
                         ),
                         floatingActionButtonLocation:
-                            FloatingActionButtonLocation.endFloat,
+                            FloatingActionButtonLocation.centerFloat,
                       );
                     } else {
                       return Scaffold(
@@ -207,9 +209,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
       child: Container(
           padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(
-            // color: const Color.fromARGB(255, 142, 187, 255),
             color: const Color.fromARGB(255, 24, 61, 61),
-
             borderRadius: BorderRadius.circular(20),
           ),
           child: Stack(

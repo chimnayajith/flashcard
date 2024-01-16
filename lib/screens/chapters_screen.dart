@@ -57,9 +57,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                   ),
                 ),
                 floatingActionButton: FloatingActionButton(
-                  // backgroundColor: const Color.fromARGB(255, 47, 56, 85),
                   backgroundColor: const Color.fromARGB(255, 92, 131, 116),
-
                   onPressed: () {
                     openDialog(context, subject.id);
                   },

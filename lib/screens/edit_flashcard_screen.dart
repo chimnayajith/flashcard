@@ -180,7 +180,6 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
                                 flashcardRepository.editFlashcard(
                                     widget.flashcard, editedFlashcard);
 
-                                // Navigator.pop(context);
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
