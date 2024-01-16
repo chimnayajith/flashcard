@@ -33,9 +33,9 @@ class _AddFlashCardScreenState extends State<AddFlashCardScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          scaffoldBackgroundColor: const Color.fromARGB(255, 36, 41, 62),
+          scaffoldBackgroundColor: const Color.fromARGB(255, 6, 15, 20),
           appBarTheme: const AppBarTheme(
-              backgroundColor: Color.fromARGB(255, 36, 41, 62),
+              backgroundColor: Color.fromARGB(255, 9, 21, 27),
               foregroundColor: Color.fromARGB(255, 244, 245, 252))),
       home: Scaffold(
         appBar: AppBar(
@@ -231,25 +231,5 @@ class _AddFlashCardScreenState extends State<AddFlashCardScreen> {
             )),
       ),
     );
-  }
-
-  DataRow buildDataRow(String input, String output) {
-    return DataRow(cells: [
-      DataCell(Container(
-        width: 200,
-        child: Text(
-          input,
-          style: TextStyle(fontSize: 17),
-          overflow: TextOverflow.ellipsis,
-        ),
-      )),
-      DataCell(Container(
-        width: 100,
-        child: TeXView(
-          child: TeXViewDocument(output,
-              style: TeXViewStyle(textAlign: TeXViewTextAlign.left)),
-        ),
-      )),
-    ]);
   }
 }

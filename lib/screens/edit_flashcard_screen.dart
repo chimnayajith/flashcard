@@ -43,9 +43,9 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
 
     return MaterialApp(
       theme: ThemeData(
-          scaffoldBackgroundColor: const Color.fromARGB(255, 36, 41, 62),
+          scaffoldBackgroundColor: const Color.fromARGB(255, 6, 15, 20),
           appBarTheme: const AppBarTheme(
-              backgroundColor: Color.fromARGB(255, 36, 41, 62),
+              backgroundColor: Color.fromARGB(255, 9, 21, 27),
               foregroundColor: Color.fromARGB(255, 244, 245, 252))),
       home: Scaffold(
         appBar: AppBar(

@@ -4,13 +4,11 @@ void showSuccessSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(
       message,
-      style: const TextStyle(fontSize: 15),
+      style: const TextStyle(fontSize: 14),
     ),
     backgroundColor: Colors.green.shade600,
     elevation: 5,
-    // margin: const EdgeInsets.only(left: 15, right: 80, bottom: 20),
-    margin: const EdgeInsets.fromLTRB(15, 0, 80, 20),
-
+    margin: const EdgeInsets.all(16),
     behavior: SnackBarBehavior.floating,
     shape: const StadiumBorder(),
     action: SnackBarAction(

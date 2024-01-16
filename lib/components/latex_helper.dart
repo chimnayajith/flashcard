@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 
 DataTable table = DataTable(
-  dataRowMinHeight: 100,
+  dataRowHeight: 100,
   columnSpacing: 16,
   columns: const [
     DataColumn(label: Text('Input')),

@@ -75,7 +75,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                             openDialog(context);
                           },
                           backgroundColor:
-                              const Color.fromARGB(255, 47, 56, 85),
+                              // const Color.fromARGB(255, 47, 56, 85),
+                              const Color.fromARGB(255, 9, 21, 27),
                           child: const Icon(Icons.add,
                               color: Color.fromARGB(255, 225, 223, 216)),
                         ),
@@ -99,10 +100,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           onPressed: () {
                             openDialog(context);
                           },
-                          // backgroundColor: Colors.amber,/
                           backgroundColor:
-                              const Color.fromARGB(255, 47, 56, 85),
-
+                              const Color.fromARGB(255, 92, 131, 116),
                           child: const Icon(
                             Icons.add,
                             color: Color.fromARGB(255, 225, 223, 216),
@@ -208,8 +207,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
       child: Container(
           padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(
-            // color: Colors.orange.shade400,
-            color: const Color.fromARGB(255, 142, 187, 255),
+            // color: const Color.fromARGB(255, 142, 187, 255),
+            color: const Color.fromARGB(255, 24, 61, 61),
+
             borderRadius: BorderRadius.circular(20),
           ),
           child: Stack(

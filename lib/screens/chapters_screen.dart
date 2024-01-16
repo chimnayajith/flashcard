@@ -55,18 +55,19 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                     subject.name,
                     textAlign: TextAlign.left,
                   ),
-                  actions: [
-                    IconButton(
-                      color: const Color.fromARGB(255, 47, 56, 85),
-                      iconSize: 30,
-                      onPressed: () {
-                        openDialog(context, subject.id);
-                      },
-                      icon: const Icon(Icons.add,
-                          color: Color.fromARGB(255, 225, 223, 216)),
-                    )
-                  ],
                 ),
+                floatingActionButton: FloatingActionButton(
+                  // backgroundColor: const Color.fromARGB(255, 47, 56, 85),
+                  backgroundColor: const Color.fromARGB(255, 92, 131, 116),
+
+                  onPressed: () {
+                    openDialog(context, subject.id);
+                  },
+                  child: const Icon(Icons.add,
+                      color: Color.fromARGB(255, 225, 223, 216)),
+                ),
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.endFloat,
                 body: ListView(
                   padding: const EdgeInsets.all(10),
                   children: chapters.isNotEmpty
@@ -104,7 +105,6 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              // backgroundColor: const Color.fromARGB(255, 26, 19, 38),
               title: const Text("Add Chapter"),
               content: TextField(
                 controller: chapterController,
@@ -137,21 +137,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
     setState(() {
       _subjectFuture = subjectRepository.getSubjectById(widget.subjectId);
     });
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      duration: Duration(minutes: 2),
-      content: Text(
-        "Chapter added !",
-        style: const TextStyle(fontSize: 15),
-      ),
-      backgroundColor: Colors.green.shade600,
-      elevation: 5,
-      margin: const EdgeInsets.fromLTRB(15, 0, 80, 20),
-      behavior: SnackBarBehavior.floating,
-      shape: const StadiumBorder(),
-      action: SnackBarAction(
-          label: "Dismiss", textColor: Colors.red.shade900, onPressed: () {}),
-    ));
-    // showSuccessSnackBar(context, "Chapter added successfully!");
+    showSuccessSnackBar(context, "Chapter added successfully!");
   }
 
   Widget _buildCard(String id, String text) {
@@ -167,7 +153,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
         child: ListTile(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          tileColor: const Color.fromARGB(255, 142, 187, 255),
+          tileColor: const Color.fromARGB(255, 24, 61, 61),
           title: Text(
             text,
             style: const TextStyle(
