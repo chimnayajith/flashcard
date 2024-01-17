@@ -26,7 +26,7 @@ RecallX is an intuitive and efficient flashcard app designed to enhance your lea
 
 ## Screenshots
 
-![FlashcardX Screenshot 1](https://kewll.fun/recallX/interactive.png)
-![FlashcardX Screenshot 2](https://kewll.fun/recallX/complex.png)
+![FlashcardX Screenshot 1](./lib/assets/complex.png)
+![FlashcardX Screenshot 2](./lib/assets/interactive.png)
 
 Happy Learning! 📚✨
