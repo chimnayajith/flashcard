@@ -49,13 +49,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   './lib/assets/organise.png',
                   0.8),
               _buildPage(
+                  'Advanced Formulas',
+                  'Easily add complex mathematical formulas with our LaTeX support.',
+                  './lib/assets/complex.png',
+                  0.8),
+              _buildPage(
                   'Interactive Learning',
                   'Swipe through flashcards and tap to reveal answers, making learning engaging and dynamic. ',
                   './lib/assets/interactive.png',
                   0.8),
             ],
           ),
-          if (_currentIndex < 3)
+          if (_currentIndex < 4)
             Positioned(
               top: 50,
               right: 10,
@@ -67,7 +72,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 onPressed: () {
                   setState(() {
-                    _currentIndex = 3;
+                    _currentIndex = 4;
                     _pageController.jumpToPage(3);
                   });
                 },
@@ -78,7 +83,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             right: 20,
             child: ElevatedButton(
                 onPressed: () async {
-                  if (_currentIndex < 3) {
+                  if (_currentIndex < 4) {
                     _pageController.nextPage(
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.ease);
@@ -92,14 +97,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             builder: (context) => SubjectScreen()));
                   }
                 },
-                child: Text(_currentIndex < 3 ? "Next" : "Get Started")),
+                child: Text(_currentIndex < 4 ? "Next" : "Get Started")),
           ),
           Positioned(
             bottom: 40,
-            left: MediaQuery.of(context).size.width / 2 - 60,
+            left: MediaQuery.of(context).size.width / 2 - 75,
             child: AnimatedSmoothIndicator(
                 activeIndex: _currentIndex,
-                count: 4,
+                count: 5,
                 effect: const ExpandingDotsEffect()),
           )
         ],
@@ -111,7 +116,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
         body: Center(
             child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
