@@ -24,7 +24,7 @@ String convertToLatex(String input) {
   input = input.replaceAll("cosec", "\\cosec");
   input = input.replaceAll("cot", "\\cot");
 
-  // superscripts
+  // superscript
   input = input.replaceAllMapped(
       RegExp(r'([a-zA-Z0-9]+)\^(?![{^_])'), (match) => '${match[1]}^');
 
@@ -78,7 +78,10 @@ String convertToLatex(String input) {
     }
   });
 
+  // preserving spacing exactly as is inputted
+  input = input.replaceAll(' ', '~');
+
   // wrapping in \[...\]
-  input = r"\[" + input + r"\]";
+  input = r"\[ " + input + r" \]";
   return input;
 }

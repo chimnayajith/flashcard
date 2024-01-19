@@ -73,7 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 onPressed: () {
                   setState(() {
                     _currentIndex = 4;
-                    _pageController.jumpToPage(3);
+                    _pageController.jumpToPage(4);
                   });
                 },
               ),
@@ -101,11 +101,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
           Positioned(
             bottom: 40,
-            left: MediaQuery.of(context).size.width / 2 - 75,
+            left: MediaQuery.of(context).size.width / 2 - 50,
             child: AnimatedSmoothIndicator(
                 activeIndex: _currentIndex,
                 count: 5,
-                effect: const ExpandingDotsEffect()),
+                effect: const ExpandingDotsEffect(
+                    expansionFactor: 3, dotHeight: 8, dotWidth: 8)),
           )
         ],
       ),
