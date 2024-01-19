@@ -23,8 +23,7 @@ class MyApp extends StatelessWidget {
               shadowColor: Colors.black,
               backgroundColor: Color.fromARGB(255, 9, 21, 27),
               foregroundColor: Color.fromARGB(255, 244, 245, 252))),
-      // home: isFirstTime ? const OnboardingScreen() : const SubjectScreen(),
-      home: const OnboardingScreen(),
+      home: isFirstTime ? const OnboardingScreen() : const SubjectScreen(),
     );
   }
 }
