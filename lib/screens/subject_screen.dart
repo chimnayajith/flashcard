@@ -14,6 +14,7 @@ class SubjectScreen extends StatefulWidget {
 }
 
 class _SubjectScreenState extends State<SubjectScreen> {
+  final _formKey = GlobalKey<FormState>();
   late Future<List<Subjects>> _subjectFuture;
   final navigatorKey = GlobalKey<NavigatorState>();
   final TextEditingController subjectController = TextEditingController();
@@ -125,25 +126,35 @@ class _SubjectScreenState extends State<SubjectScreen> {
   void openDialog(BuildContext context) {
     showDialog(
         context: navigatorKey.currentContext as BuildContext,
-        builder: (context) => AlertDialog(
-              title: const Text("Add Subject"),
-              content: TextField(
-                  controller: subjectController,
-                  autofocus: true,
-                  decoration:
-                      const InputDecoration(hintText: "Enter Subject Name")),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
+        builder: (context) => Form(
+              key: _formKey,
+              child: AlertDialog(
+                title: const Text("Add Subject"),
+                content: TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter a subject name";
+                      }
                     },
-                    child: const Text('Cancel')),
-                TextButton(
-                    onPressed: () {
-                      submitSubject(context, subjectController.text);
-                    },
-                    child: const Text('Submit'))
-              ],
+                    controller: subjectController,
+                    autofocus: true,
+                    decoration:
+                        const InputDecoration(hintText: "Enter Subject Name")),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel')),
+                  TextButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          submitSubject(context, subjectController.text);
+                        }
+                      },
+                      child: const Text('Submit'))
+                ],
+              ),
             ));
   }
 
@@ -165,25 +176,35 @@ class _SubjectScreenState extends State<SubjectScreen> {
     editSubjectController.text = oldName;
     showDialog(
         context: navigatorKey.currentContext as BuildContext,
-        builder: (context) => AlertDialog(
-              title: const Text("Edit Subject Name"),
-              content: TextField(
-                  controller: editSubjectController,
-                  autofocus: true,
-                  decoration:
-                      const InputDecoration(hintText: "Enter Subject Name")),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
+        builder: (context) => Form(
+              key: _formKey,
+              child: AlertDialog(
+                title: const Text("Edit Subject Name"),
+                content: TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter a subject name.";
+                      }
                     },
-                    child: const Text('Cancel')),
-                TextButton(
-                    onPressed: () {
-                      editSubject(context, id, editSubjectController.text);
-                    },
-                    child: const Text('Submit'))
-              ],
+                    controller: editSubjectController,
+                    autofocus: true,
+                    decoration:
+                        const InputDecoration(hintText: "Enter Subject Name")),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel')),
+                  TextButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          editSubject(context, id, editSubjectController.text);
+                        }
+                      },
+                      child: const Text('Submit'))
+                ],
+              ),
             ));
   }
 

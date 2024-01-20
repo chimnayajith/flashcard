@@ -15,6 +15,7 @@ class ChaptersScreen extends StatefulWidget {
 }
 
 class _ChaptersScreenState extends State<ChaptersScreen> {
+  final _formKey = GlobalKey<FormState>();
   late Future<Subjects?> _subjectFuture;
   final SubjectRepository subjectRepository = SubjectRepository();
 
@@ -101,28 +102,38 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
   void openDialog(BuildContext context, String id) {
     showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-              title: const Text("Add Chapter"),
-              content: TextField(
-                controller: chapterController,
-                autofocus: true,
-                decoration:
-                    const InputDecoration(hintText: "Enter Chapter Name"),
-                textCapitalization: TextCapitalization.words,
+        builder: (context) => Form(
+              key: _formKey,
+              child: AlertDialog(
+                title: const Text("Add Chapter"),
+                content: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter a chapter name!";
+                    }
+                  },
+                  controller: chapterController,
+                  autofocus: true,
+                  decoration:
+                      const InputDecoration(hintText: "Enter Chapter Name"),
+                  textCapitalization: TextCapitalization.words,
+                ),
+                contentPadding: const EdgeInsets.all(20),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel')),
+                  TextButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          submitChapter(context, id, chapterController.text);
+                        }
+                      },
+                      child: const Text('Submit'))
+                ],
               ),
-              contentPadding: const EdgeInsets.all(20),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Cancel')),
-                TextButton(
-                    onPressed: () {
-                      submitChapter(context, id, chapterController.text);
-                    },
-                    child: const Text('Submit'))
-              ],
             ));
   }
 
@@ -199,32 +210,43 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
     editChapterController.text = oldName;
     showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-              title: const Text("Edit Chapter Name"),
-              content: TextField(
-                  controller: editChapterController,
-                  autofocus: true,
-                  decoration:
-                      const InputDecoration(hintText: "Enter Chapter Name")),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
+        builder: (context) => Form(
+              key: _formKey,
+              child: AlertDialog(
+                title: const Text("Edit Chapter Name"),
+                content: TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Enter a chapter name!";
+                      }
                     },
-                    child: const Text('Cancel')),
-                TextButton(
-                    onPressed: () async {
-                      await subjectRepository.editChapter(
-                          id, editChapterController.text, oldName);
-                      Navigator.of(context).pop();
-                      setState(() {
-                        _subjectFuture = subjectRepository.getSubjectById(id);
-                      });
-                      showSuccessSnackBar(
-                          context, "Chapter edited successfully!");
-                    },
-                    child: const Text('Submit'))
-              ],
+                    controller: editChapterController,
+                    autofocus: true,
+                    decoration:
+                        const InputDecoration(hintText: "Enter Chapter Name")),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel')),
+                  TextButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await subjectRepository.editChapter(
+                              id, editChapterController.text, oldName);
+                          Navigator.of(context).pop();
+                          setState(() {
+                            _subjectFuture =
+                                subjectRepository.getSubjectById(id);
+                          });
+                          showSuccessSnackBar(
+                              context, "Chapter edited successfully!");
+                        }
+                      },
+                      child: const Text('Submit'))
+                ],
+              ),
             ));
   }
 
