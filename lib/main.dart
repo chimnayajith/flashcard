@@ -1,12 +1,15 @@
+import 'package:flashcard/repositories/database_helper.dart';
 import 'package:flashcard/screens/onboarding_screen.dart';
 import 'package:flashcard/screens/subject_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
+  final Database? db = await DatabaseHelper.instance.database;
+  List<Map<String, dynamic>> result =
+      await db!.rawQuery("SELECT * FROM isFirstTime");
+  bool isFirstTime = result.isEmpty;
   runApp(MyApp(isFirstTime: isFirstTime));
 }
 

@@ -133,7 +133,8 @@ class _FlashcardScreenState extends State<FlashcardScreen> {
                                         }
                                         return Center(
                                           child: Padding(
-                                              padding: EdgeInsets.only(top: 50),
+                                              padding: const EdgeInsets.only(
+                                                  top: 50),
                                               child: SizedBox(
                                                 width: Curves.easeOut
                                                         .transform(value) *

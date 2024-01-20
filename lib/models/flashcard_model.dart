@@ -1,5 +1,5 @@
 class Flashcard {
-  String subjectId;
+  String id;
   String chapter;
   String type;
   String question;
@@ -7,7 +7,7 @@ class Flashcard {
   String complexAnswer;
 
   Flashcard(
-      {required this.subjectId,
+      {required this.id,
       required this.chapter,
       required this.question,
       required this.type,
@@ -16,7 +16,7 @@ class Flashcard {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': subjectId,
+      'id': id,
       'chapter': chapter,
       'type': type,
       'question': question,
@@ -27,7 +27,7 @@ class Flashcard {
 
   factory Flashcard.fromMap(Map<String, dynamic> map) {
     return Flashcard(
-        subjectId: map['id'],
+        id: map['id'],
         chapter: map['chapter'],
         question: map['question'],
         type: map['type'],

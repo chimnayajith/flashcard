@@ -5,7 +5,6 @@ import 'package:flashcard/models/flashcard_model.dart';
 import 'package:flashcard/repositories/flashcard_repository.dart';
 import 'package:flashcard/screens/flashcard_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tex/flutter_tex.dart';
 
 class EditFlashcardScreen extends StatefulWidget {
   final Flashcard flashcard;
@@ -170,7 +169,7 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
                                     convertToLatex(answerController.text);
 
                                 Flashcard editedFlashcard = Flashcard(
-                                    subjectId: widget.flashcard.subjectId,
+                                    id: widget.flashcard.id,
                                     chapter: widget.flashcard.chapter,
                                     question: question,
                                     type: flashcardType,
@@ -184,8 +183,7 @@ class _EditFlashcardScreenState extends State<EditFlashcardScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => FlashcardScreen(
-                                            subjectId:
-                                                widget.flashcard.subjectId,
+                                            subjectId: widget.flashcard.id,
                                             chapterName:
                                                 widget.flashcard.chapter)),
                                     (route) => false);

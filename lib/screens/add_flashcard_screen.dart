@@ -148,7 +148,7 @@ class _AddFlashCardScreenState extends State<AddFlashCardScreen> {
                       Padding(
                           padding: const EdgeInsets.only(top: 30),
                           child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 String question = questionController.text;
                                 String answer = answerController.text;
 
@@ -159,14 +159,15 @@ class _AddFlashCardScreenState extends State<AddFlashCardScreen> {
                                       convertToLatex(answerController.text);
 
                                   Flashcard flashcard = Flashcard(
-                                      subjectId: widget.subjectId,
+                                      id: widget.subjectId,
                                       chapter: widget.chapterName,
                                       question: question,
                                       type: flashcardType,
                                       answer: answer,
                                       complexAnswer: complex);
 
-                                  flashcardRepository.addFlashcard(flashcard);
+                                  await flashcardRepository
+                                      .addFlashcard(flashcard);
 
                                   Navigator.pop(context);
                                   Navigator.pushReplacement(

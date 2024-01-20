@@ -30,7 +30,7 @@ String convertToLatex(String input) {
 
   // subscripts
   input = input.replaceAllMapped(
-      RegExp(r'([a-zA-Z0-9]+)\_(?![{^_])'), (match) => '${match[1]}_');
+      RegExp(r'([a-zA-Z0-9]+)\_()'), (match) => '${match[1]}_');
 
   //handling fractions of different patterns
   input = input.replaceAllMapped(

@@ -1,128 +1,96 @@
-import 'dart:convert';
+import 'package:flashcard/repositories/database_helper.dart';
 import 'package:flashcard/repositories/flashcard_repository.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flashcard/models/subject_model.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SubjectRepository {
   Future<List<Subjects>> getSubjects() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final subjectsJson = prefs.getStringList('subjects') ?? [];
-    return subjectsJson
-        .map((subject) => Subjects.fromMap(json.decode(subject)))
-        .toList();
+    final Database? db = await DatabaseHelper.instance.database;
+    final List<Map<String, dynamic>> subjectsJson = await db!.query('subjects');
+    return subjectsJson.map((subject) => Subjects.fromMap(subject)).toList();
   }
 
   Future<void> addSubject(Subjects subject) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final subjectsJson = prefs.getStringList('subjects') ?? [];
-    subjectsJson.add(json.encode(subject.toJson()));
-    prefs.setStringList('subjects', subjectsJson);
+    final Database? db = await DatabaseHelper.instance.database;
+    await db!.insert('subjects', subject.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<void> removeSubject(String id) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final subjectsJson = prefs.getStringList('subjects') ?? [];
-    subjectsJson.removeWhere(
-      (element) {
-        final decodedSubject = json.decode(element);
-        return decodedSubject['id'] == id;
-      },
-    );
-    prefs.setStringList('subjects', subjectsJson);
+    final Database? db = await DatabaseHelper.instance.database;
+    db?.delete('subjects', where: 'id=?', whereArgs: [id]);
   }
 
   Future<void> editSubject(String id, String name) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final subjectsJson = prefs.getStringList('subjects') ?? [];
-    int index = subjectsJson.indexWhere((element) {
-      final decodedSubject = json.decode(element);
-      return decodedSubject['id'] == id;
-    });
-
-    if (index != -1) {
-      Map<String, dynamic> decodedSubject = json.decode(subjectsJson[index]);
-      decodedSubject['name'] = name;
-      subjectsJson[index] = json.encode(decodedSubject);
-    }
-    prefs.setStringList('subjects', subjectsJson);
+    final Database? db = await DatabaseHelper.instance.database;
+    await db?.update('subjects', {'name': name},
+        where: 'id=?', whereArgs: [id]);
   }
 
   Future<Subjects?> getSubjectById(String subjectId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final subjectsJson = prefs.getStringList('subjects') ?? [];
-    final subjectData = subjectsJson.firstWhere(
-      (element) {
-        final decodedSubject = json.decode(element);
-        return decodedSubject['id'] == subjectId;
-      },
+    final Database? db = await DatabaseHelper.instance.database;
+    List<Map<String, dynamic>> result = await db!.query(
+      'subjects',
+      where: 'id=?',
+      whereArgs: [subjectId],
     );
-    final parsedSubject = Subjects.fromMap(json.decode(subjectData));
-    return parsedSubject;
+    if (result.isNotEmpty) {
+      return Subjects.fromMap(result.first);
+    } else {
+      return null;
+    }
   }
 
   Future<void> addChapterToSubject(String subjectId, String chapterName) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final subjectsJson = prefs.getStringList('subjects') ?? [];
-
-    int index = subjectsJson.indexWhere((element) {
-      final decodedSubject = json.decode(element);
-      return decodedSubject['id'] == subjectId;
-    });
-
-    if (index != -1) {
-      Map<String, dynamic> decodedSubject = json.decode(subjectsJson[index]);
-      List<String> chapters = decodedSubject['chapters'].cast<String>();
-      chapters.add(chapterName);
-      decodedSubject['chapters'] = chapters;
-
-      subjectsJson[index] = json.encode(decodedSubject);
-      prefs.setStringList('subjects', subjectsJson);
-    }
+    final Database? db = await DatabaseHelper.instance.database;
+    List<Map<String, dynamic>> result = await db!
+        .rawQuery("SELECT chapters FROM subjects WHERE id='$subjectId'");
+    List<String> chapters = result.first['chapters'] != null
+        ? result.first['chapters'].split(",")
+        : [];
+    chapters.add(chapterName);
+    await db.update('subjects', {'chapters': chapters.join(',')},
+        where: 'id=?', whereArgs: [subjectId]);
   }
 
   Future<void> removeChapterFromSubject(
       String subjectId, String chapterName) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final subjectsJson = prefs.getStringList('subjects') ?? [];
+    final Database? db = await DatabaseHelper.instance.database;
+    List<Map<String, dynamic>> result = await db!.query(
+      'subjects',
+      where: 'id=?',
+      whereArgs: [subjectId],
+    );
 
-    int index = subjectsJson.indexWhere((element) {
-      final decodedSubject = json.decode(element);
-      return decodedSubject['id'] == subjectId;
-    });
+    if (result.isNotEmpty) {
+      Map<String, dynamic> subjectData = result.first;
+      List<String> chapters = (subjectData['chapters'] as String).split(',');
 
-    if (index != -1) {
-      Map<String, dynamic> decodedSubject = json.decode(subjectsJson[index]);
-      List<String> chapters = decodedSubject['chapters'].cast<String>();
       chapters.remove(chapterName);
-      decodedSubject['chapters'] = chapters;
-
-      subjectsJson[index] = json.encode(decodedSubject);
-      prefs.setStringList('subjects', subjectsJson);
+      await db.update('subjects',
+          {'chapters': chapters.isNotEmpty ? chapters.join(',') : null},
+          where: 'id=?', whereArgs: [subjectId]);
     }
   }
 
   Future<void> editChapter(String id, String newName, String oldName) async {
+    final Database? db = await DatabaseHelper.instance.database;
     final FlashcardRepository flashcardRepository = FlashcardRepository();
+    List<Map<String, dynamic>> result = await db!.query(
+      'subjects',
+      where: 'id=?',
+      whereArgs: [id],
+    );
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final subjectsJson = prefs.getStringList('subjects') ?? [];
-
-    int index = subjectsJson.indexWhere((element) {
-      final decodedSubject = json.decode(element);
-      return decodedSubject['id'] == id;
-    });
-
-    if (index != -1) {
-      Map<String, dynamic> decodedSubject = json.decode(subjectsJson[index]);
-      List<String> chapters = decodedSubject['chapters'].cast<String>();
-      int chIndex = chapters.indexWhere((element) => element == oldName);
-      chapters[chIndex] = newName;
-      decodedSubject['chapters'] = chapters;
-
-      subjectsJson[index] = json.encode(decodedSubject);
-      prefs.setStringList('subjects', subjectsJson);
+    if (result.isNotEmpty) {
+      Map<String, dynamic> subjectData = result.first;
+      List<String> chapters = (subjectData['chapters'] as String).split(',');
+      int index = chapters.indexOf(oldName);
+      chapters.remove(oldName);
+      chapters.insert(index, newName);
+      await db.update('subjects', {'chapters': chapters.join(',')},
+          where: 'id=?', whereArgs: [id]);
+      flashcardRepository.chapterChanged(id, oldName, newName);
     }
-
-    flashcardRepository.chapterChanged(id, oldName, newName);
   }
 }

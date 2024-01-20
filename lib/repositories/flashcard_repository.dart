@@ -1,78 +1,52 @@
 import 'package:flashcard/models/flashcard_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+import 'package:flashcard/repositories/database_helper.dart';
+
+import 'package:sqflite/sqflite.dart';
 
 class FlashcardRepository {
   Future<List<Flashcard>> getFlashcards(String id, String chapter) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final flashcardsJson = prefs.getStringList('flashcard') ?? [];
+    final Database? db = await DatabaseHelper.instance.database;
+    List<Map<String, dynamic>> result = await db!.rawQuery(
+        "SELECT * FROM flashcards WHERE id = '$id' AND chapter = '$chapter'");
+    List<Flashcard> flashcards =
+        result.map((each) => Flashcard.fromMap(each)).toList();
 
-    final filteredData = flashcardsJson
-        .where((flashcard) =>
-            Flashcard.fromMap(json.decode(flashcard)).subjectId == id &&
-            Flashcard.fromMap(json.decode(flashcard)).chapter == chapter)
-        .toList();
-
-    final parsedFlashcards = filteredData
-        .map((flashcard) => Flashcard.fromMap(json.decode(flashcard)))
-        .toList();
-    return parsedFlashcards;
+    return flashcards;
   }
 
   Future<void> addFlashcard(Flashcard flashcard) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final flashcardsJson = prefs.getStringList('flashcard') ?? [];
+    final Database? db = await DatabaseHelper.instance.database;
 
-    flashcardsJson.add(json.encode(flashcard.toJson()));
-    prefs.setStringList('flashcard', flashcardsJson);
+    await db!.insert('flashcards', flashcard.toJson());
   }
 
   Future<void> deleteFlashcard(String subjectId, String chapterName,
       String question, String answer) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final flashcardsJson = prefs.getStringList('flashcard') ?? [];
+    final Database? db = await DatabaseHelper.instance.database;
 
-    flashcardsJson.removeWhere((flashcard) =>
-        Flashcard.fromMap(json.decode(flashcard)).subjectId == subjectId &&
-        Flashcard.fromMap(json.decode(flashcard)).chapter == chapterName &&
-        Flashcard.fromMap(json.decode(flashcard)).question == question &&
-        Flashcard.fromMap(json.decode(flashcard)).answer == answer);
-
-    prefs.setStringList('flashcard', flashcardsJson);
+    await db!.delete('flashcards',
+        where: 'id = ? AND chapter = ? AND question = ? AND answer = ?',
+        whereArgs: [subjectId, chapterName, question, answer]);
   }
 
   Future<void> editFlashcard(
       Flashcard oldFlashcard, Flashcard editedFlashcard) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final flashcardsJson = prefs.getStringList('flashcard') ?? [];
+    final Database? db = await DatabaseHelper.instance.database;
 
-    int index = flashcardsJson.indexWhere((flashcard) =>
-        Flashcard.fromMap(json.decode(flashcard)).subjectId ==
-            oldFlashcard.subjectId &&
-        Flashcard.fromMap(json.decode(flashcard)).chapter ==
-            oldFlashcard.chapter &&
-        Flashcard.fromMap(json.decode(flashcard)).question ==
-            oldFlashcard.question &&
-        Flashcard.fromMap(json.decode(flashcard)).answer ==
-            oldFlashcard.answer);
-    flashcardsJson.removeAt(index);
-    flashcardsJson.insert(index, json.encode(editedFlashcard.toJson()));
-    prefs.setStringList("flashcard", flashcardsJson);
+    await db!.update('flashcards', editedFlashcard.toJson(),
+        where: 'id = ? AND chapter = ? AND question = ? AND answer = ?',
+        whereArgs: [
+          oldFlashcard.id,
+          oldFlashcard.chapter,
+          oldFlashcard.question,
+          oldFlashcard.answer
+        ]);
   }
 
   Future<void> chapterChanged(String id, String oldName, String newName) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final flashcardsJson = prefs.getStringList('flashcard') ?? [];
+    final Database? db = await DatabaseHelper.instance.database;
 
-    for (int i = 0; i < flashcardsJson.length; i++) {
-      Flashcard decodedFlashcard = json.decode(flashcardsJson[i]);
-
-      if (decodedFlashcard.subjectId == id &&
-          decodedFlashcard.chapter == oldName) {
-        decodedFlashcard.chapter = newName;
-        flashcardsJson[i] = json.encode(decodedFlashcard);
-      }
-    }
-    prefs.setStringList("flashcard", flashcardsJson);
+    await db!.update('flashcards', {'chapter': newName},
+        where: 'id = ? AND chapter = ?', whereArgs: [id, oldName]);
   }
 }

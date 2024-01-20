@@ -78,7 +78,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           onPressed: () {
                             openDialog(context);
                           },
-                          backgroundColor: const Color.fromARGB(255, 9, 21, 27),
+                          backgroundColor:
+                              const Color.fromARGB(255, 92, 131, 116),
                           child: const Icon(Icons.add,
                               color: Color.fromARGB(255, 225, 223, 216)),
                         ),
@@ -149,8 +150,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   void submitSubject(BuildContext context, String subjectName) {
     var uuid = const Uuid();
     String subjectId = uuid.v4();
-    Subjects newSubject =
-        Subjects(id: subjectId, name: subjectName, chapters: []);
+    Subjects newSubject = Subjects(id: subjectId, name: subjectName);
 
     subjectRepository.addSubject(newSubject);
     Navigator.of(context).pop();

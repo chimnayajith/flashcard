@@ -1,7 +1,8 @@
+import 'package:flashcard/repositories/database_helper.dart';
 import 'package:flashcard/screens/subject_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:sqflite/sqflite.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -88,9 +89,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.ease);
                   } else {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.setBool('isFirstTime', false);
+                    final Database? db = await DatabaseHelper.instance.database;
+                    await db!.execute(
+                        'INSERT INTO isFirstTime(isFirstTime) VALUES(1)');
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

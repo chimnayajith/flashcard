@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flashcard/components/custom_snackbar.dart';
 import 'package:flashcard/models/subject_model.dart';
 import 'package:flashcard/screens/flashcard_screen.dart';
@@ -48,7 +46,8 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
               return Text('Error ${snapshot.error}');
             } else {
               Subjects subject = snapshot.data!;
-              List<String> chapters = subject.chapters;
+              List<String> chapters =
+                  subject.chapters != null ? subject.chapters!.split(",") : [];
               return Scaffold(
                 appBar: AppBar(
                   title: Text(
@@ -128,8 +127,8 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
   }
 
   void submitChapter(
-      BuildContext context, String subjectId, String chapterName) {
-    subjectRepository.addChapterToSubject(subjectId, chapterName);
+      BuildContext context, String subjectId, String chapterName) async {
+    await subjectRepository.addChapterToSubject(subjectId, chapterName);
     Navigator.of(context).pop();
 
     setState(() {
@@ -214,8 +213,8 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                     },
                     child: const Text('Cancel')),
                 TextButton(
-                    onPressed: () {
-                      subjectRepository.editChapter(
+                    onPressed: () async {
+                      await subjectRepository.editChapter(
                           id, editChapterController.text, oldName);
                       Navigator.of(context).pop();
                       setState(() {
@@ -252,8 +251,9 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
                     },
                     child: const Text('Cancel')),
                 TextButton(
-                    onPressed: () {
-                      subjectRepository.removeChapterFromSubject(id, text);
+                    onPressed: () async {
+                      await subjectRepository.removeChapterFromSubject(
+                          id, text);
                       Navigator.of(context).pop();
                       setState(() {
                         _subjectFuture =
