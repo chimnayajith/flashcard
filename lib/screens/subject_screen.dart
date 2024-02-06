@@ -52,28 +52,30 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       return Text('Error ${snapshot.error}');
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return Scaffold(
-                        body: Stack(
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image.asset('./lib/assets/empty.png'),
-                                const Text(
-                                  'No subjects yet!',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color:
-                                          Color.fromARGB(255, 244, 245, 252)),
-                                ),
-                                const Text(
-                                  'Add using the + icon.',
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.grey),
-                                )
-                              ],
-                            ),
-                          ],
+                        body: SingleChildScrollView(
+                          child: Stack(
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Image.asset('./lib/assets/empty.png'),
+                                  const Text(
+                                    'No subjects yet!',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            Color.fromARGB(255, 244, 245, 252)),
+                                  ),
+                                  const Text(
+                                    'Add using the + icon.',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         floatingActionButton: FloatingActionButton(
                           onPressed: () {
@@ -326,3 +328,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
             ));
   }
 }
+
+
+
+
